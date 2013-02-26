@@ -1,2 +1,4 @@
 .gradle
 *.i[mpw][lrs]
+build
+out
