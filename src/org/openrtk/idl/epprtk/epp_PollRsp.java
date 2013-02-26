@@ -1,0 +1,103 @@
+/*
+**
+** EPP RTK Java
+** Copyright (C) 2001-2002, Tucows, Inc.
+** Copyright (C) 2003, Liberty RMS
+**
+**
+** This library is free software; you can redistribute it and/or
+** modify it under the terms of the GNU Lesser General Public
+** License as published by the Free Software Foundation; either
+** version 2.1 of the License, or (at your option) any later version.
+**
+** This library is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+** Lesser General Public License for more details.
+**
+** You should have received a copy of the GNU Lesser General Public
+** License along with this library; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+**
+*/
+
+package org.openrtk.idl.epprtk;
+
+
+/**
+ * Class that contains the elements used to represent the poll
+ * response from the EPP server.</p>
+ * Note usually instantiated by the RTK user, but rather by EPPPoll
+ * and retrieved using that class' getResponseData() method.</p>
+ * $Header: /cvsroot/epp-rtk/epp-rtk/java/src/org/openrtk/idl/epprtk/epp_PollRsp.java,v 1.1 2004/12/07 15:27:49 ewang2004 Exp $<br>
+ * $Revision: 1.1 $<br>
+ * $Date: 2004/12/07 15:27:49 $<br>
+ * @see com.tucows.oxrs.epprtk.rtk.xml.EPPPoll
+ * @see org.openrtk.idl.epprtk.epp_PollReq
+ */
+public class epp_PollRsp implements org.omg.CORBA.portable.IDLEntity
+{
+  /**
+   * The common and generic response element.
+   * @see #getRsp()
+   */
+  public org.openrtk.idl.epprtk.epp_Response m_rsp = null;
+  /**
+   * The retrieved message data.
+   * @see #setResData(org.openrtk.idl.epprtk.epp_PollResData)
+   * @see #getResData()
+   */
+  public org.openrtk.idl.epprtk.epp_PollResData m_res_data = null;
+
+  /**
+   * Empty constructor
+   */
+  public epp_PollRsp ()
+  {
+  } // ctor
+
+  /**
+   * The constructor with initializing variables.
+   * @param _m_rsp The common and generic response element
+   * @param _m_res_data The retrieved message data
+   */
+  public epp_PollRsp (org.openrtk.idl.epprtk.epp_Response _m_rsp, org.openrtk.idl.epprtk.epp_PollResData _m_res_data)
+  {
+    m_rsp = _m_rsp;
+    m_res_data = _m_res_data;
+  } // ctor
+
+  /**
+   * Accessor method for the common and generic response element.
+   * @param value The new value for the response element
+   * @see #m_rsp
+   */
+  public void setRsp(org.openrtk.idl.epprtk.epp_Response value) { m_rsp = value; }
+  /**
+   * Accessor method for the common and generic response element.
+   * @return The value for the response element
+   * @see #m_rsp
+   */
+  public org.openrtk.idl.epprtk.epp_Response getRsp() { return m_rsp; }
+
+  /**
+   * Accessor method for the retrieved message data
+   * @param value The retrieved message data
+   * @see #m_res_data
+   */
+  public void setResData(org.openrtk.idl.epprtk.epp_PollResData value) { m_res_data = value; }
+  /**
+   * Accessor method for the retrieved message data
+   * @return The retrieved message data
+   * @see #m_res_data
+   */
+  public org.openrtk.idl.epprtk.epp_PollResData getResData() { return m_res_data; }
+
+  /**
+   * Converts this class into a string.
+   * Typically used to view the object in debug output.
+   * @return The string representation of this object instance
+   */
+  public String toString() { return this.getClass().getName() + ": { m_rsp ["+m_rsp+"] m_res_data ["+m_res_data+"] }"; }
+
+} // class epp_PollRsp

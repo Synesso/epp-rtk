@@ -1,0 +1,150 @@
+<project name="EPP-RTK-Java" default="compile.library" basedir=".">
+
+  <!-- Initialization properties -->
+  <property name="app.name"        value="epp-rtk-java"/>
+  <property name="build.home"      value="build"/>
+  <property name="debug"           value="true"/>
+  <property name="deprecation"     value="false"/>
+  <property name="dist.home"       value="dist"/>
+  <property name="optimize"        value="true"/>
+  <property name="project.name"    value="epp-rtk-java"/>
+  <property name="project.version" value="0.9.7"/>
+  <!-- property name="build.compiler"  value="jikes"/ -->
+  <!-- property name="build.compiler" value="classic"/ -->
+  <!-- property name="build.compiler" value="modern"/ -->
+
+  <!-- BUILD:  Create directories and copy files for library -->
+  <target name="prepare.library">
+    <mkdir   dir="${build.home}"/>
+    <mkdir   dir="${build.home}/library"/>
+    <mkdir   dir="${build.home}/library/classes"/>
+  </target>
+
+  <!-- DIST:  Create directories and copy files for distribution -->
+  <target name="prepare.dist">
+    <mkdir   dir="${dist.home}"/>
+    <mkdir   dir="${dist.home}/lib"/>
+    <mkdir   dir="${dist.home}/ssl"/>
+    <mkdir   dir="${dist.home}/src"/>
+    <mkdir   dir="${dist.home}/doc"/>
+    <mkdir   dir="${dist.home}/doc/api-doc"/>
+  </target>
+
+  <!-- BUILD:  Compile library directory components -->
+  <target name="compile.library" depends="prepare.library">
+    <javac srcdir="src"     destdir="${build.home}/library/classes"
+     debug="${debug}" optimize="${optimize}"
+     deprecation="${deprecation}"/>
+  </target>
+
+  <!-- BUILD:  Create Javadoc documentation -->
+  <target name="compile.javadoc">
+    <delete   dir="${build.home}/doc"/>
+    <mkdir    dir="${build.home}/doc"/>
+    <javadoc sourcepath="src"
+                destdir="${build.home}/doc"
+              classpath="${java.class.path}"
+           packagenames="com.tucows.oxrs.*,org.openrtk.idl.*"
+                 author="true"
+                private="false"
+                version="true"
+            windowtitle="EPP RTK Java API Documentation"
+               doctitle="&lt;h1&gt;EPP Registrar Toolkit for Java (Version ${project.version})&lt;/h1&gt;"
+                 header="EPP RTK&lt;br&gt;for Java v ${project.version}"
+                 bottom="&lt;font size=-1&gt;Copyright &#169; 2001-2002 - Tucows, Inc., 2003 - LibertyRMS&lt;/font&gt;"/>
+  </target>
+
+  <!-- DIST:  Construct library distributables -->
+  <target name="dist.jar" depends="prepare.dist,compile.library">
+    <jar  jarfile="${dist.home}/lib/${app.name}.jar"
+          basedir="${build.home}/library/classes" includes="**"/>
+  </target>
+
+  <!-- DIST:  Construct library distributables -->
+  <target name="dist.javadoc" depends="prepare.dist,compile.javadoc">
+    <copy   todir="${dist.home}/doc/api-doc">
+      <fileset dir="${build.home}/doc"/>
+    </copy>
+  </target>
+
+  <!-- DIST:  Copy sources -->
+  <target name="dist.source" depends="prepare.dist">
+    <copy   todir="${dist.home}/etc">
+      <fileset dir="." includes="build.*"/>
+    </copy>
+    <copy   todir="${dist.home}/etc">
+      <fileset dir="." includes="Makefile"/>
+    </copy>
+    <copy   todir="${dist.home}/etc">
+      <fileset dir="etc" includes="*.*"/>
+    </copy>
+    <copy   todir="${dist.home}">
+      <fileset dir="." includes="LICENSE.*"/>
+    </copy>
+    <copy   todir="${dist.home}">
+      <fileset dir="." includes="run_example.*"/>
+    </copy>
+    <copy   todir="${dist.home}">
+      <fileset dir="." includes="*.TXT"/>
+    </copy>
+    <copy   todir="${dist.home}/lib">
+      <fileset dir="lib" includes="*.*"/>
+    </copy>
+    <copy   todir="${dist.home}/ssl">
+      <fileset dir="ssl" includes="*"/>
+    </copy>
+    <copy   todir="${dist.home}/doc">
+      <fileset dir="doc" includes="*.*"/>
+    </copy>
+    <copy   todir="${dist.home}/src">
+      <fileset dir="src"/>
+    </copy>
+  </target>
+
+  <!-- DIST:  Construct complete release distribution -->
+  <target name="dist"
+       depends="dist.jar,dist.source,dist.javadoc"/>
+
+  <!-- DIST:  Construct complete release distribution -->
+  <target name="dist.nojavadoc"
+       depends="dist.jar,dist.source"/>
+
+  <!-- UTILITY:  Display all targets intended for developer use -->
+  <target name="targets">
+    <echo message=""/>
+    <echo message="ANT build for ${project.name} ${project.version}"/>
+    <echo message=""/>
+    <echo message="The following targets are available:"/>
+    <echo message="  all       Cleans and builds library and webapps"/>
+    <echo message="  clean     Cleans the build and distribution directories"/>
+    <echo message="  javadoc   Builds Javadoc API docs for the Java EPP RTK"/>
+    <echo message="  library   Builds the main packages"/>
+    <echo message="  dist      Builds binary distribution in dist directory"/>
+    <echo message="  jar       Builds only the jar file portion of the distribution"/>
+    <echo message=""/>
+    <echo message="Default target is 'library'"/>
+  </target>
+
+  <!-- UTILITY:  Clean up build and distribution directories -->
+  <target name="clean">
+    <delete dir="${build.home}"/>
+    <delete dir="${dist.home}"/>
+  </target>
+
+  <!-- UTILITY:  All-in-one build target -->
+  <target name="all"
+       depends="clean,dist"/>
+
+  <!-- UTILITY:  Javadoc build target -->
+  <target name="javadoc"
+       depends="compile.javadoc"/>
+
+  <!-- UTILITY:  library build target -->
+  <target name="library"
+       depends="compile.library"/>
+
+  <!-- UTILITY:  library build target -->
+  <target name="jar"
+       depends="dist.jar"/>
+
+</project>

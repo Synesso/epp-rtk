@@ -1,0 +1,305 @@
+Copyright (c) 2001, 2002 Tucows, Inc. All rights reserved.
+Copyright (c) 2003 Afilias, Ltd. All rights reserved.
+
+EPP RTK Java Versions
+======================
+epp-rtk-java-0.9.7 - Feb 2, 2011
+
+ + Various C++ compiler compatibility changes.
+ + Fixed issue with ContactExample and DomainExample not transferring properly.
+
+epp-rtk-java-0.9.6 - Aug 10, 2009
+
+ + Made changes to EPP RTK to fix a bug.
+   
+epp-rtk-java-0.9.5 - May 18, 2007
+
+ + Made changes to EPPXMLBase.java to fix a bug 
+   when sending more than one extension
+
+epp-rtk-java-0.7.5 - Dec 24, 2003
+
+ + In epp02, improvement was made to parsing unspec elements 
+   in response from server. Old code only parsed the first 
+   unspec subelement, the rest were ignored.  New code 
+   parses them all and put them all together in the same 
+   m_unspec_string.  This update is only noteworthy for 
+   registrars who will use IDNs for .info and still use 
+   trademark info for domain names.
+ + Also made epp02 code more tolerant of missing trid
+   elements in error responses from server.
+
+epp-rtk-java-0.7.4 - Sept 10, 2003
+
+ + Added usage of ssl.keystore.format property to epp02's
+   EPPClient (backport from EPPTransportTCPTLS in epp0705)
+ + Added addition of BounyCastle security provider if the 
+   keystore format is BC
+ + Added createXMLSnippetFromDoc() to epp02's EPPXMLBase
+   needed for new RGPRenew liberty-rtk-addon unspec
+   class
+
+epp-rtk-java-0.7.3 - Sept 2, 2003
+
+ + Fixed pattern string for UTC simple date formats.  Was
+   using "hh" for hours, but this only accepts 1-12. "HH"
+   accepts 0-23.
+ + Added null check for the children of value nodes.
+   Received reports of NPE's when parsing some responses
+   from the .cn registry.
+ + Changed epp02,epp0402,epp0503,epp0604 to get a named
+   log4j logger and not the root loggers.  epp0705 
+   was already doing this.
+
+epp-rtk-java-0.7.2 - May 5, 2003
+
+ + Fixed the build scrips to include the bouncy castle jar file
+ + Made the RTK tolerant of missing properties, uses internal
+   defaults for missing values: debug level=1; transport=tcptls;
+   advancedlogging=false
+ + Replaced the array manipulation for address in EPPContactInfo
+   with an ArrayList, and then convert it to an array afterwards --
+   this is consistent with building of the contact status array.
+ + Made at least get/setAddresses() set of accessors for the 
+   addresses not deprecated in epp_ContactInfoRsp
+ + In TCPTLS transport, now checking to see if the connection 
+   was successfully established for some reason ssl handshake 
+   exceptions don't make it to us, so we have to probe the socket
+ + Fix to transfer status values for a bug reported on the devel
+   list by M Schout
+
+epp-rtk-java-0.7.1 - April 11, 2003
+
+ + Merged in bug fixes from custom 0.7.0 for Afilias
+   (includes: fixes to EPPGreeting in parsing the
+   dcp data; fixes to XML rendering of extensions;
+   upgrade xerces to 1.4.4; fixed auth info xml
+   rendering to be compliant with the syntax; fixes
+   and minor improvements to the examples)
+ + Using BouncyCastle provider for PKCS12 keystore
+ + Updated the ssl directory with newer example key 
+   and cert and moved old ssl stuff to ssl/old-ssl
+
+epp-rtk-java-0.7.0 - March 24, 2003
+
+ + Initial Java RTK release for EPP 07/05
+   + Removed the EPP status command.
+   + AuthInfo now has EXT type, in addition
+     to PW.
+   + Removed "ResultData" from EPP response.
+   + Created new epp_ExtResultValue IDL class.
+   + Removed credentials class and moved its
+     data members to the Login request. (EPP
+     no longer supports sessionless interactions).
+   + Added new 1001 response code -- command 
+     completed successfully.
+   + Changed constant naming of the 1301, and 2500.
+   + Changed meaning of 2501 reponse code.
+     (Backward compatibility of response codes is provided)
+   + Added pending action notification classes
+     (domainpanData, contactpanData and hostpanData)
+     to the xml/poll class package.
+ + Renamed source packages from com.tucows.oxrs.epp.*
+   to com.tucows.oxrs.epp0705.*
+ + Imported in source from EPP 06/04, 05/03, 04/02,
+   and "pre" 02 into current source tree.
+ + Updated run_example.(sh|bat) to accept an EPP
+   version number to run example code.  See usage
+   for run_example for format.
+ + Updates to the SSL code for compilation with
+   Java SDK 1.4.
+ + Upgraded to Ant 1.5.2 (to solve problems in
+   javadoc generation)
+ + Added usage of log4j to do debug logging
+   which involved new jar, changes to rtk.properties
+   and changes to all EPP versions of RTKBase class
+
+epp-rtk-java-0.5.0 - March 20, 2002
+
+ + Initial Java RTK release for EPP 05/03
+ + Revamped polling structure and classes
+ + New EPP status command
+ + Restructuring to Check results -- "exists"
+   terminology changes to "avail" with opposite
+   boolean value.
+ + "Unspec" changed to "Extension" to match EPP
+   spec.
+ + IDL "Type" classes (eg. epp_TransferStatusType)
+   now have toString() methods to convert the
+   types to String representations.
+
+epp-rtk-java-0.4.1 - Dec 18, 2001
+
+ + Updated examples to work with .biz registry.
+ + Added overloaded version of RTKBase.setDebugLevel()
+   with no params which causes the debug level to
+   be read from the rtk.properties files.
+ + Fixed bug with EPPHostInfo where default IP addr
+   type was null and causing exceptions.
+ + Now using regexp package to strip out whitespace
+   in XML from server.  "include-ignorable-whitespace"
+   set to false had no effect since Xerces doesn't
+   have a DTD for this XML to determine which
+   whitespaces are ignorable.
+ + Fixed bug with unspec parsing in EPPXMLBase class.
+ + Re-added setRoid() and getRoid() as deprecated
+   methods for improved backward compatibility
+   with the 0.3.x line of RTKs.
+ + Added Javadocs to the IDL classes (epp_*).
+
+epp-rtk-java-0.4.0 - Oct 8, 2001
+
+ + Upgraded RTK to use EPP 04/02 (i.e. epp 04 and domain/
+   contact/host 02).
+ + Merged various bug fixes from the epp-pre02 branch.
+ + Revamped protocol/tranport in EPPClient.  Created
+   transport package and EPPTransport* classes.
+
+epp-rtk-java-0.3.8 - July 27, 2001
+
+ + Fixed bug in contact fax data member.  Was a String,
+   is now an epp_ContactPhone instance because it
+   is supposed to accept an extension value.
+ + Fixed a bug in run_example.sh
+ + Changed all epp_* classes to no longer be "final".
+ + Updated user guide.
+
+epp-rtk-java-0.3.7 - July 20, 2001
+
+ + Fixed bug in EPPContactBase.addressToXML() where the
+   name was always put into the XML even if it was null.
+   This resulted in ContactUpdate not working if the name
+   was being omitted for the reason that it wasn't changing.
+ + Improved ssl README.TXT based on suggestions from
+   A. Eden in devel list.
+ + Verified order of XML elements in XML generating classes.
+ + Updated ContactExample to work with recent .info regisry
+   builds.
+
+epp-rtk-java-0.3.6 - July 12, 2001
+
+ + Recent changes to .info registry sends XML formatted all
+   nice and pretty like.  Xerces reacted very badly to this.
+   Introduced code to strip out the XML header and spaces 
+   between tags in EPP messages from the server.
+   This is a general fix anyhow since any registry could
+   send their data with any number of \n's and spaces.
+ + Small bug fix in EPPXMLBase.java where the id attribute 
+   was not being retrieved.
+
+epp-rtk-java-0.3.5 - July 3, 2001
+
+ + Added toString() method to all the org.openrtk classes
+   that have public data members.  Also added get's and
+   set's for all the public data members to make the classes
+   more Object Oriented.  Make then easier to use in EJB
+   or JSP contexts.
+ + Added Poll "resData" parsing in response.  This includes
+   "domaintransfer" and "contacttransfer" responses because 
+   they are the obvious ones (protocol doesn't specifically
+   define any).  The framework is now there to create
+   poll resData extensions (see EPPPoll and PollResData classes).
+ + Added poll() methods to EPPClient.java to make it easier to
+   poll the server.  Also, wessorh added isValid() and 
+   getLastNetTransaction() for improved connection
+   management.
+ + Updated SessionExample to use EPPClient.poll().
+ + Added the etc directory and the file rtk.properties.
+   Currently only one property can be set right now and it
+   defines a list of class packages in which to find Poll
+   resData parsers.  Currently the default in EPPPoll.java
+   is sufficient since no external Poll parsers have been
+   created.  The RTKBase class will load the RTK properties
+   if the system property "rtk.props.file" has been 
+   defined.
+ + Added regexp.jar from Apache's Jakarta project.  Changed
+   the run_examples and the build scripts to include it
+   in the class path.  The first module to use it is EPPPoll.java
+ + Fixed SF bugs: 435835, 431185, 431215
+ + Also create a utility class in the ssl directory to convert
+   external RSA keys and x509 certs to a java keystore that the
+   RTK understands.  Also added README for helpful tips and
+   tricks for keys and certs.  Thanks for wessorh for the
+   first tip.
+ + Updated user's guide: notes on SSL and certs; added 'optional'
+   markers for members of IDL classes; and more.
+
+epp-rtk-java-0.3.4 - May 31, 2001
+
+ + Added doc/epp-rtk-users-guide.html
+ + Added run_example.bat from dankirkd
+ + Updated README for run_example.sh/bat
+ + Removed README section on .info and Entrust
+   since they aren't using Entrust certs anymore
+ + Changed EPPXMLBase.getCheckResultFor() to ignore case
+   in object identifier comparison because Liberty's
+   EPP server returns contact roids in all uppercase
+ + Added send RTK version number on Login
+
+epp-rtk-java-0.3.3 - May 24, 2001
+
+ + Added code to EPPClient so that it can take in SSL
+   certs.
+ + Added ssl directory to CVS and to distribution which holds
+   the sample certs we created.  It also holds the ssl.properties
+   file which defines some variable for secure connections.
+
+epp-rtk-java-0.3.2 - May 21, 2001
+
+ + Bug fixes to Host and Contact status for the Info command
+   and fix to Host IPs for the Info command
+ + Also fixed spelling mistake in IDL and its use in the RTK
+   (Thanks for steira00 for finding this.)
+ + Fixes for SF bugs 425375 and 425952 (Thanks to wessorh
+   for finding those)
+
+epp-rtk-java-0.3.1 - May 11, 2001
+
+ + Bug fixes to Transfers
+ + Added public utility methods to "base" classes (eg. EPPDomainBase) which
+   allow conversion from IDL type classes to string representation (eg.
+   EPPDomainBase.convertStatusToString(epp_DomainStatusType) )
+ + Enhanced SessionExample to be more dynamic and interact with user and to
+   take advantage of the new utility methods added to the "base" classes.
+ + Renamed IDL Java packages from "org.openrrc.rtk.epp..." to
+   "org.openrtk.idl.epp..."
+ + added epp_Unspec interface to EPP IDL.  This makes add-on creation and use
+   a little more logical.
+ + Created classes for Unpec interface from IDL changes
+ + Changed EPPXMLBase to specify  in client requests as epp_Unspec object and
+   in server responses as XML String
+ + Removed Liberty API document (will be converted to text/html
+   in next release(s) and made generic)
+
+epp-rtk-java-0.3.0 - May 4, 2001
+
+ + Updates to conform with EPP 02 pre-release
+ + Updated API document
+
+epp-rtk-java-0.2.2 - April 27, 2001
+
+ + Updates to IDL files.
+ + Bug fixes (EPPDomainInfo, SessionExample)
+ + Added EPP 01 drafts to distribution
+ + Updated API document
+
+epp-rtk-java-0.2.1 - April 20, 2001
+
+ + Included Java classes for RTK IDLs
+ + Created SessionExample.java
+
+epp-rtk-java-0.2 - April 18, 2001
+
+ + Updated to conform to epp 01 drafts
+ + Updated to use Java IDL classes for data structures
+
+epp-rtk-java-0.1.1 - March 28, 2001
+
+ + Added Domain Renew and Transfer
+
+epp-rtk-java-0.1 - March 16, 2001
+
+ + Initial Beta release.
+ + Provides ping, info, create, update and delete for domain, contact and
+   host objects.
+
